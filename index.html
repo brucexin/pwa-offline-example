@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <title>PWA Offline Example</title>
+    <head>
+
+    </head>
+    <body>
+        <div>
+            <span>
+                <label>Service-Worker Version is </label>
+                <H3 id="text-version">
+                    0
+                </H3>
+            </span>
+            <span>
+                <H4 id="text-time"></H4>
+            </span>
+        </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('try register serviceWorker...');
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then((reg) => {
+                    console.log('Service worker registered:', reg);
+                }, (err) => {
+                    console.error('Service worker registered error:', 
+                        err);
+                });
+        } else {
+            console.error('Browser not support service worker!!!');
+        }
+    });
+</script>
+        <script type="module" src="/index.js"></script>
+    </body>
+</html>
