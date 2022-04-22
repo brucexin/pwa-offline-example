@@ -1,4 +1,4 @@
-let VER = '0.0.7';
+let VER = '0.0.15';
 let CACHE_NAME = 'cache_'+VER; // An unique name in origin scope, 
                                // see https://www.w3.org/TR/service-workers-1/#dfn-relevant-name-to-cache-map
 
@@ -68,3 +68,16 @@ self.addEventListener('fetch', (e) => {
     console.log(`[sw.js ${VER}] Fetch `, e);
     e.respondWith(onFetch(e));
 });
+
+async function handleMessage(client, cmd) {
+    if(cmd.type == "VER") {
+        client.postMessage(JSON.stringify({"type":"VER", "value":VER}));
+    }
+}
+
+self.addEventListener("message", (e) => {
+    let cmd = JSON.parse(e.data);
+    log("received command from navigator:", e);
+    e.waitUntil(handleMessage(e.source, cmd));
+    
+})
